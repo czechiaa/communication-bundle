@@ -1,0 +1,33 @@
+{
+  "name": "czechiaa/communication-bundle",
+  "license": "MIT",
+  "description": "Communication bundle",
+  "type": "symfony-bundle",
+  "homepage": "https://github.com/czechiaa/communication-bundle",
+  "authors": [
+    {
+      "name": "czechiaa",
+      "email": "czechiaa@live.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.3",
+    "ext-json": "*",
+    "symfony/http-kernel": ">=5.0",
+    "symfony/dependency-injection": ">=5.0",
+    "symfony/config": ">=5.0",
+    "symfony/serializer": ">=5.0",
+    "symfony/validator": ">=5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Czechiaa\\Bundle\\CommunicationBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
+}
