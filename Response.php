@@ -244,4 +244,22 @@ class Response
     {
         $this->code = $code;
     }
+
+    /**
+     * @param mixed $data
+     * @return void
+     */
+    final protected function setData($data): void
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @param mixed $key
+     * @return mixed|string|null
+     */
+    final protected function getData($key)
+    {
+        return $this->data[$key] ?? null;
+    }
 }
