@@ -28,7 +28,7 @@ class Response
     /**
      * @var null|string|object|array
      */
-    private mixed $bridge;
+    private mixed $bridge = null;
 
     /**
      * @var int
