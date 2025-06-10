@@ -1,32 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Czechiaa\Bundle\CommunicationBundle\Response;
 
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use InvalidArgumentException;
+
 use function is_string;
 use function is_array;
 
-/**
- * Class ContextResponse
- * @package Czechiaa\Bundle\CommunicationBundle\Response
- */
 class ContextResponse
 {
     /**
-     * @var array|string[]
+     * @var string[]
      */
-    private $context;
+    private array $context;
 
     /**
-     * @var array|string[]
+     * @var string[]
      */
-    private $dateTimeContext = [];
+    private array $dateTimeContext = [];
 
-    /**
-     * ContextComponent constructor.
-     * @param array $context
-     */
     public function __construct(array $context = [])
     {
         if (empty($context)) {
@@ -39,7 +34,7 @@ class ContextResponse
      * @param string[]|string $groups
      * @return $this
      */
-    public function groups($groups): self
+    public function groups(string|array $groups): self
     {
         if (!is_array($groups)) {
             $groups = (array)$groups;
@@ -55,7 +50,7 @@ class ContextResponse
      *
      * @throws InvalidArgumentException
      */
-    public function dateTimeContext($groups): self
+    public function dateTimeContext(string|array $groups): self
     {
         if (!is_string($groups) && !is_array($groups)) {
             throw new InvalidArgumentException('Invalid date time context (groups).');
@@ -68,7 +63,7 @@ class ContextResponse
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
     public function getContext(): array
     {
@@ -76,9 +71,9 @@ class ContextResponse
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
-    public function getDateTimeContext(): ?array
+    public function getDateTimeContext(): array
     {
         return $this->dateTimeContext;
     }

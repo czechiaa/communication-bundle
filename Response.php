@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Czechiaa\Bundle\CommunicationBundle;
 
 use Czechiaa\Bundle\CommunicationBundle\Response\ContextResponse;
@@ -10,44 +12,31 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
+
 use function array_key_exists;
 use function array_merge;
 use function func_get_args;
 use function is_array;
 
-/**
- * Class Response
- * @package Czechiaa\Bundle\CommunicationBundle
- */
 class Response
 {
     /**
-     * @var SerializerInterface
+     * @var null|string|object|array
      */
-    private $serializer;
+    private mixed $data = [];
 
     /**
      * @var null|string|object|array
      */
-    private $data = [];
-
-    /**
-     * @var null|string|object|array
-     */
-    private $bridge;
+    private mixed $bridge;
 
     /**
      * @var int
      */
-    private $code = SymfonyResponse::HTTP_OK;
+    private int $code = SymfonyResponse::HTTP_OK;
 
-    /**
-     * Flusher constructor.
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private readonly SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     /**
@@ -92,7 +81,7 @@ class Response
      * @param ContextResponse|null $context
      * @return void
      */
-    private function store($key, $value, ?ContextResponse $context): void
+    private function store(int|string|null $key, mixed $value, ?ContextResponse $context): void
     {
         $output = new OutputResponse($key, $value, $context);
         $data = $this->serialize($output);
@@ -188,10 +177,6 @@ class Response
         return $this->serializer->normalize($output->getValue(), $output->getFormat(), $instance->getContext());
     }
 
-    /**
-     * @param array $headers
-     * @return JsonResponse
-     */
     public function send(array $headers = []): JsonResponse
     {
         $headers = $this->mergeHeaders($headers);
@@ -205,17 +190,13 @@ class Response
         return new JsonResponse($data, $this->code, $headers);
     }
 
-    /**
-     * @param array $context
-     * @return ContextResponse
-     */
-    public function context(array $context = []): ContextResponse
+    public static function context(array $context = []): ContextResponse
     {
         return new ContextResponse($context);
     }
 
     /**
-     * @return array|string[]
+     * @return array<string, string>
      */
     public static function getDefaultHeaders(): array
     {
@@ -231,7 +212,7 @@ class Response
      * @param mixed $bridge
      * @return void
      */
-    final protected function setBridge($bridge): void
+    final protected function setBridge(mixed $bridge): void
     {
         $this->bridge = $bridge;
     }
